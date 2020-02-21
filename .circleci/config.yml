@@ -338,6 +338,14 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: PACKAGE_OPERATOR
+          command: |
+            LATEST_TAG_WITH_V=`git describe --abbrev=0 --tags ${CIRCLE_SHA1}`
+            LATEST_TAG=${LATEST_TAG_WITH_V:1}
+            SNYK_OPERATOR_VERSION=${LATEST_TAG}
+            SNYK_MONITOR_VERSION=${LATEST_TAG}
+            ./scripts/package-operator.sh "${SNYK_OPERATOR_VERSION}" "${SNYK_MONITOR_VERSION}"
+      - run:
           name: PUBLISH
           command: |
             LATEST_TAG_WITH_V=`git describe --abbrev=0 --tags ${CIRCLE_SHA1}` &&
