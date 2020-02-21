@@ -1,0 +1,5 @@
+channels:
+- currentCSV: snyk-operator.vSNYK_OPERATOR_VERSION_OVERRIDE
+  name: stable
+defaultChannel: stable
+packageName: snyk-operator
