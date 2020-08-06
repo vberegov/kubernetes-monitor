@@ -212,16 +212,6 @@ jobs:
         name: Create temporary directory for logs
     - run:
         command: |
-          export KUBERNETES_MONITOR_IMAGE_NAME_AND_TAG=$(./scripts/circleci-jobs/setup-integration-tests.py)
-          npm run test:integration:kindolm:operator
-        name: Operator integration tests on plain k8s
-    - run:
-        command: |
-          ./scripts/operator/delete-operator-from-quay.sh
-        name: Delete Operator from Quay
-        when: on_fail
-    - run:
-        command: |
           ./scripts/slack/notify_failure_on_branch.py "staging-integration-operator-k8s-tests-${CIRCLE_SHA1}"
         name: Notify Slack on failure
         when: on_fail
@@ -917,6 +907,14 @@ workflows:
             ignore:
             - staging
             - master
+    - upload_operator:
+        filters:
+          branches:
+            ignore:
+            - staging
+            - master
+        requires:
+        - build_operator
     - unit_tests:
         filters:
           branches:
@@ -945,6 +943,16 @@ workflows:
             - master
         requires:
         - build_image
+    - integration_tests_operator_on_k8s:
+        filters:
+          branches:
+            ignore:
+            - staging
+            - master
+        requires:
+        - build_image
+        - build_operator
+        - upload_operator
     - integration_tests_proxy:
         filters:
           branches:
