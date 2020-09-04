@@ -1,0 +1,13 @@
+scorecard:
+  # Setting a global scorecard option
+  output: text
+  plugins:
+    - basic:
+        cr-manifest:
+          - "deploy/olm-catalog/snyk-operator/1.32.2/snykmonitors.charts.helm.k8s.io.crd.yaml"
+          # - "deploy/crds/custom-resource.yaml"
+    - olm:
+        cr-manifest:
+          - "deploy/olm-catalog/snyk-operator/1.32.2/snykmonitors.charts.helm.k8s.io.crd.yaml"
+          # - "deploy/crds/custom-resource.yaml"
+        csv-path: "deploy/olm-catalog/snyk-operator/1.32.2/snyk-operator.v1.32.2.clusterserviceversion.yaml"

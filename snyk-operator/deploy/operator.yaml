@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snyk-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: snyk-operator
+  template:
+    metadata:
+      labels:
+        name: snyk-operator
+    spec:
+      serviceAccountName: snyk-operator
+      containers:
+        - name: snyk-operator
+          # Replace this with the built image name
+          image: docker.io/snyk/kubernetes-operator:1.32.2
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: snyk-scorecard-kubeconfig
+              mountPath: /snyk-scorecard-secret
+          env:
+            - name: KUBECONFIG
+              value: /snyk-scorecard-secret/config
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "snyk-operator"
+        - name: snyk-scorecard-proxy
+          command:
+          - scorecard-proxy
+          env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: quay.io/operator-framework/scorecard-proxy:v0.15.1
+          imagePullPolicy: Always
+          ports:
+          - name: proxy
+            containerPort: 8889
+      volumes:
+        - name: snyk-scorecard-kubeconfig
+          secret:
+            secretName: snyk-scorecard-kubeconfig
+            items:
+            - key: kubeconfig
+              path: config

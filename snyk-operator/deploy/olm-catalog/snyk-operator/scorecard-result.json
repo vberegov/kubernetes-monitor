@@ -1,0 +1,100 @@
+{
+  "kind": "ScorecardOutput",
+  "apiVersion": "osdk.openshift.io/v1alpha2",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "log": "time=\"2020-09-03T17:00:40+01:00\" level=info msg=\"Using config file: .osdk-scorecard.yaml\"\n",
+  "results": [
+    {
+      "name": "Spec Block Exists",
+      "description": "Custom Resource has a Spec Block",
+      "labels": {
+        "necessity": "required",
+        "suite": "basic",
+        "test": "checkspectest"
+      },
+      "state": "pass"
+    },
+    {
+      "name": "Status Block Exists",
+      "description": "Custom Resource has a Status Block",
+      "labels": {
+        "necessity": "required",
+        "suite": "basic",
+        "test": "checkstatustest"
+      },
+      "state": "pass"
+    },
+    {
+      "name": "Writing into CRs has an effect",
+      "description": "A CR sends PUT/POST requests to the API server to modify resources in response to spec block changes",
+      "labels": {
+        "necessity": "required",
+        "suite": "basic",
+        "test": "writingintocrshaseffecttest"
+      },
+      "state": "fail",
+      "suggestions": [
+        "The operator should write into objects to update state. No PUT or POST requests from the operator were recorded by the scorecard."
+      ]
+    },
+    {
+      "name": "Provided APIs have validation",
+      "description": "All CRDs have an OpenAPI validation subsection",
+      "labels": {
+        "necessity": "required",
+        "suite": "olm",
+        "test": "crdshavevalidationtest"
+      },
+      "state": "pass"
+    },
+    {
+      "name": "Owned CRDs have resources listed",
+      "description": "All Owned CRDs contain a resources subsection",
+      "labels": {
+        "necessity": "required",
+        "suite": "olm",
+        "test": "crdshaveresourcestest"
+      },
+      "state": "pass"
+    },
+    {
+      "name": "Spec fields with descriptors",
+      "description": "All spec fields have matching descriptors in the CSV",
+      "labels": {
+        "necessity": "required",
+        "suite": "olm",
+        "test": "specdescriptorstest"
+      },
+      "state": "fail"
+    },
+    {
+      "name": "Status fields with descriptors",
+      "description": "All status fields have matching descriptors in the CSV",
+      "labels": {
+        "necessity": "required",
+        "suite": "olm",
+        "test": "statusdescriptorstest"
+      },
+      "state": "fail"
+    },
+    {
+      "name": "Bundle Validation Test",
+      "description": "Validates bundle contents",
+      "labels": {
+        "necessity": "required",
+        "suite": "olm",
+        "test": "bundlevalidationtest"
+      },
+      "state": "pass",
+      "log": "\u001b[36mINFO\u001b[0m[0044] loading Bundles                               \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2/\n\u001b[36mINFO\u001b[0m[0044] directory
+                   \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2/ \u001b[36mfile\u001b[0m=1.32.2 \u001b[36mload\u001b[0m=bundles\n\u001b[36mINFO\u001b[0m[0044] found csv, loading bundle
+           \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2/ \u001b[36mfile\u001b[0m=snyk-operator.v1.32.2.clusterserviceversion.yaml \u001b[36mload\u001b[0m=bundles\n\u001b[36mINFO\u001b[0m[0044] l
+oading bundle file                           \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2 \u001b[36mfile\u001b[0m=snyk-operator.v1.32.2.clusterserviceversion.yaml \u001b[36mload\u001b[0m=bundle\
+n\u001b[36mINFO\u001b[0m[0044] loading bundle file                           \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2 \u001b[36mfile\u001b[0m=snykmonitors.charts.helm.k8s.io.crd.yaml \u001b[
+36mload\u001b[0m=bundle\n\u001b[36mINFO\u001b[0m[0044] loading Packages and Entries                  \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2/\n\u001b[36mINFO\u001b[0m[0044] directory
+                              \u001b[36mdir\u001b[0m=deploy/olm-catalog/snyk-operator/1.32.2/ \u001b[36mfile\u001b[0m=1.32.2 \u001b[36mload\u001b[0m=package\n"
+    }
+  ]
+}
