@@ -52,3 +52,7 @@ helm
 kubeconfig-integration-test-kind
 snyk-monitor-test-deployment.yaml
 snyk-operator/helm-charts
+
+# local development
+.integration-id
+kustomize/example.yaml

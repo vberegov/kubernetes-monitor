@@ -1,0 +1,11 @@
+# kustomization.yaml
+namespace: snyk-monitor
+
+resources:
+  - all.yaml
+
+patches:
+  - target:
+      kind: Deployment
+      name: "*"
+    path: patch.json
